@@ -69,13 +69,28 @@ features 保持扁平、可組合。
 載入標準數學套件組：
 
 - `amsmath`
-- `amssymb`
-- `amsfonts`
 - `amsthm`
 - `mathtools`
 - `bm`
-- `mathrsfs`
 - `fix-cm`
+
+預設情況下，`math` 也會載入傳統符號與 script 套件組：
+
+- `amssymb`
+- `amsfonts`
+- `mathrsfs`
+
+如果已經載入 `fonts={libertinus}`，`math` feature 會切換到
+`unicode-math` 並選用 `Libertinus Math`。如果已經載入
+`fonts={mlmodern}`，則會跟隨傳統 `mlmodern` 路線。
+
+可在載入 `math` feature 前用 `\UseMathFont{...}` 明確指定數學字體：
+
+- `\UseMathFont{auto}`：預設行為
+- `\UseMathFont{libertinus}`：使用 `unicode-math` 與 `Libertinus Math`
+- `\UseMathFont{newcm}`：使用 `unicode-math` 與 `NewComputerModernMath`
+- `\UseMathFont{mlmodern}`：使用傳統 `mlmodern` package 路線
+- 其他值會直接傳給 `\setmathfont{...}`
 
 同時定義預設 theorem-like environments：
 

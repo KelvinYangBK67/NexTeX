@@ -405,6 +405,21 @@
 \cs_new_protected:Npn \__font_family_use_default:n #1
   { \__font_family_use_auto:n {#1} }
 
+\cs_new_protected:Npn \NextFontFamilyLoadedTF #1#2#3
+  {
+    \prop_if_in:NnTF \g__font_family_loaded_prop { #1 / local }
+      {#2}
+      {
+        \prop_if_in:NnTF \g__font_family_loaded_prop { #1 / global }
+          {#2}
+          {
+            \prop_if_in:NnTF \g__font_family_loaded_prop { #1 / auto-global }
+              {#2}
+              {#3}
+          }
+      }
+  }
+
 \NewDocumentCommand{\UseFont}{m O{}}
   {
     \tl_if_blank:nTF {#2}

@@ -6,9 +6,12 @@
 \def\NextSystemUiZhInternalLoaded{1}
 
 \RequirePackage{etoolbox}
+\RequirePackage{xparse}
 \RequirePackage{zhnumber}
 
 \makeatletter
+\@ifclassloaded{beamer}{}{\RequirePackage{titletoc}}
+
 \newcommand{\NextUiZhSetName}[2]{%
   \@ifundefined{#1}
     {\expandafter\def\csname #1\endcsname{#2}}
@@ -47,9 +50,9 @@
 
 \newcommand{\NextUiZhApplyChapterFormat}{%
   \renewcommand{\thechapter}{第\zhnumber{\arabic{chapter}}章}%
-  \renewcommand{\thesection}{\arabic{chapter}.\arabic{section}}%
-  \renewcommand{\thesubsection}{\thesection.\arabic{subsection}}%
-  \renewcommand*\l@chapter{\@dottedtocline{0}{0em}{5em}}%
+  \NextUiZhApplySectionNumbering
+  \renewcommand{\thefigure}{\arabic{chapter}.\arabic{figure}}%
+  \renewcommand{\thetable}{\arabic{chapter}.\arabic{table}}%
   \def\@makechapterhead##1{%
     \vspace*{50\p@}%
     {\parindent \z@ \raggedright \normalfont
@@ -66,6 +69,109 @@
     }}%
 }
 
+\newcommand{\NextUiZhApplySectionNumbering}{%
+  \setcounter{secnumdepth}{3}%
+  \setcounter{tocdepth}{3}%
+  \renewcommand{\thesection}{\zhnumber{\arabic{section}}}%
+  \renewcommand{\thesubsection}{（\zhnumber{\arabic{subsection}}）}%
+  \renewcommand{\thesubsubsection}{\arabic{subsubsection}.}%
+}
+
+\newcommand{\NextUiZhApplyTocSpacing}{%
+  \@ifundefined{titlecontents}{}{%
+    \@ifundefined{chapter}{}{%
+      \titlecontents{chapter}
+        [0em]
+        {}
+        {\thecontentslabel\hspace{1em}}
+        {}
+        {\titlerule*[0.8em]{.}\contentspage}%
+    }%
+    \titlecontents{section}
+      [2em]
+      {}
+      {\thecontentslabel\hspace{0.75em}}
+      {}
+      {\titlerule*[0.8em]{.}\contentspage}%
+    \titlecontents{subsection}
+      [4em]
+      {}
+      {\thecontentslabel\hspace{0.65em}}
+      {}
+      {\titlerule*[0.8em]{.}\contentspage}%
+    \titlecontents{subsubsection}
+      [6em]
+      {}
+      {\thecontentslabel\hspace{0.55em}}
+      {}
+      {\titlerule*[0.8em]{.}\contentspage}%
+  }%
+}
+
+\newcommand{\NextUiZhApplySectionFormat}{%
+  \NextUiZhApplySectionNumbering
+  \NextUiZhApplyTocSpacing
+}
+
+\newcommand{\NextUiZhApplyCaptionFormat}{%
+  \@ifundefined{fnum@figure}{}{%
+    \renewcommand{\fnum@figure}{\figurename\thefigure}%
+  }%
+  \@ifundefined{fnum@table}{}{%
+    \renewcommand{\fnum@table}{\tablename\thetable}%
+  }%
+}
+
+\newif\ifNextUiZhStarredToc
+\NextUiZhStarredToctrue
+\newcommand{\NoTocNext}{\global\NextUiZhStarredTocfalse}
+\newcommand{\NextNoTocNext}{\NoTocNext}
+\newcommand{\NextUiZhMaybeAddContents}[2]{%
+  \ifNextUiZhStarredToc
+    \@ifpackageloaded{hyperref}{\phantomsection}{}%
+    \addcontentsline{toc}{#1}{#2}%
+  \else
+    \global\NextUiZhStarredToctrue
+  \fi
+}
+\newcommand{\NextUiZhPatchStarredToc}{%
+  \@ifclassloaded{beamer}{}{%
+    \let\NextUiZhOriginalTableOfContents\tableofcontents
+    \renewcommand{\tableofcontents}{%
+      \NoTocNext
+      \NextUiZhOriginalTableOfContents
+    }%
+    \@ifundefined{chapter}{}{%
+      \let\NextUiZhOriginalChapter\chapter
+      \RenewDocumentCommand{\chapter}{s o m}{%
+        \IfBooleanTF{##1}{%
+          \NextUiZhOriginalChapter*{##3}%
+          \IfNoValueTF{##2}
+            {\NextUiZhMaybeAddContents{chapter}{##3}}
+            {\NextUiZhMaybeAddContents{chapter}{##2}}%
+        }{%
+          \IfNoValueTF{##2}
+            {\NextUiZhOriginalChapter{##3}}
+            {\NextUiZhOriginalChapter[##2]{##3}}%
+        }%
+      }%
+    }%
+    \let\NextUiZhOriginalSection\section
+    \RenewDocumentCommand{\section}{s o m}{%
+      \IfBooleanTF{##1}{%
+        \NextUiZhOriginalSection*{##3}%
+        \IfNoValueTF{##2}
+          {\NextUiZhMaybeAddContents{section}{##3}}
+          {\NextUiZhMaybeAddContents{section}{##2}}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextUiZhOriginalSection{##3}}
+          {\NextUiZhOriginalSection[##2]{##3}}%
+      }%
+    }%
+  }%
+}
+
 \AtBeginDocument{%
   \NextUiZhSetName{abstractname}{摘要}%
   \NextUiZhSetName{contentsname}{目錄}%
@@ -76,9 +182,9 @@
   \@ifundefined{refname}{}{\renewcommand{\refname}{參考文獻}}%
   \@ifundefined{AgendaTitle}{}{\renewcommand{\AgendaTitle}{目錄}}%
   \NextUiZhApplyDate
-  \@ifclassloaded{ctexbook}{%
-    \renewcommand*\l@chapter{\@dottedtocline{0}{0em}{4.5em}}%
-  }{}%
+  \NextUiZhApplySectionFormat
+  \NextUiZhApplyCaptionFormat
+  \NextUiZhPatchStarredToc
   \@ifclassloaded{book}{%
     \NextUiZhApplyChapterFormat
   }{}%

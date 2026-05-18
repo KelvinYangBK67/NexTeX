@@ -48,6 +48,11 @@
 }
 \makeatother
 
+\providecommand{\NextMathFontSelection}{auto}
+\newcommand{\UseMathFont}[1]{%
+  \def\NextMathFontSelection{#1}%
+}
+
 \ExplSyntaxOn
 
 \NewDocumentCommand{\UseCitationStyle}{m}

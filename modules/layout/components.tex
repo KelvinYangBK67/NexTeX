@@ -143,6 +143,14 @@
     \setstretch{1.70}
     \setlength{\parindent}{2em}
     \setlength{\parskip}{0.35em}
+    \renewenvironment{quote}
+      {\small
+       \list{}{\leftmargin=4em
+                \rightmargin=0em
+                \topsep=0.5em
+                \parsep=0pt}
+       \item\relax}
+      {\endlist}
     \setlist[enumerate]{
       leftmargin=2em,
       labelsep=0.5em,

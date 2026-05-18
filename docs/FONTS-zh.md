@@ -243,7 +243,8 @@ catalog/fonts.tex
 | `times` | `TIM` | `local` | 是 | Windows Times/Arial/Consolas 組合 |
 | `gentium` | `GEN` | `local` | 是 | Gentium Plus 拉丁字族 |
 | `charis` | `CHA` | `local` | 是 | Charis SIL 拉丁字族 |
-| `libertinus` | `LIB` | `local` | 是 | Libertinus Serif/Sans 拉丁字族 |
+| `libertinus` | `LIB` | `local` | 是 | TeX Live Libertinus Serif/Sans/Mono 字族 |
+| `mlmodern` | `MLM` | `local` | 否 | MLModern 傳統 package 路線；數學由 `math` feature 跟隨 |
 | `anatolian` | `CA` | `local` | 否 | Carian |
 | `coptic` | `CO` | `local` | 否 | 科普特文 |
 | `bopomofo` | `ZY` | `local` | 否 | 注音 / Bopomofo |

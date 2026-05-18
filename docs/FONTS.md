@@ -279,7 +279,8 @@ The current catalog registers the following families. `globalfonts = {...}` only
 | `times` | `TIM` | `local` | yes | Windows Times/Arial/Consolas bundle |
 | `gentium` | `GEN` | `local` | yes | Gentium Plus Latin family |
 | `charis` | `CHA` | `local` | yes | Charis SIL Latin family |
-| `libertinus` | `LIB` | `local` | yes | Libertinus Serif/Sans Latin family |
+| `libertinus` | `LIB` | `local` | yes | TeX Live Libertinus Serif/Sans/Mono family |
+| `mlmodern` | `MLM` | `local` | no | MLModern legacy package route; math follows through the `math` feature |
 | `anatolian` | `CA` | `local` | no | Carian |
 | `coptic` | `CO` | `local` | no | Coptic |
 | `bopomofo` | `ZY` | `local` | no | Bopomofo / Zhuyin |

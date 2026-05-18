@@ -137,24 +137,37 @@
   local = {
     command = LIB,
     name = libertinus_local,
-    path = \CatalogFontRoot/libertinus/,
-    regular = LibertinusSerif-Regular.ttf,
-    bold = LibertinusSerif-Bold.ttf,
-    italic = LibertinusSerif-Italic.ttf,
-    bolditalic = LibertinusSerif-BoldItalic.ttf,
-    sans = LibertinusSans-Regular.ttf,
-    sansbold = LibertinusSans-Bold.ttf,
-    sansitalic = LibertinusSans-Italic.ttf
+    regular = LibertinusSerif-Regular.otf,
+    bold = LibertinusSerif-Bold.otf,
+    italic = LibertinusSerif-Italic.otf,
+    bolditalic = LibertinusSerif-BoldItalic.otf,
+    sans = LibertinusSans-Regular.otf,
+    sansbold = LibertinusSans-Bold.otf,
+    sansitalic = LibertinusSans-Italic.otf,
+    mono = LibertinusMono-Regular.otf
   },
   global = {
-    path = \CatalogFontRoot/libertinus/,
-    regular = LibertinusSerif-Regular.ttf,
-    bold = LibertinusSerif-Bold.ttf,
-    italic = LibertinusSerif-Italic.ttf,
-    bolditalic = LibertinusSerif-BoldItalic.ttf,
-    sans = LibertinusSans-Regular.ttf,
-    sansbold = LibertinusSans-Bold.ttf,
-    sansitalic = LibertinusSans-Italic.ttf
+    regular = LibertinusSerif-Regular.otf,
+    bold = LibertinusSerif-Bold.otf,
+    italic = LibertinusSerif-Italic.otf,
+    bolditalic = LibertinusSerif-BoldItalic.otf,
+    sans = LibertinusSans-Regular.otf,
+    sansbold = LibertinusSans-Bold.otf,
+    sansitalic = LibertinusSans-Italic.otf,
+    mono = LibertinusMono-Regular.otf
+  },
+}
+
+\FontRegisterFamily{
+  id = mlmodern,
+  defaultmode = local,
+  local = {
+    command = MLM,
+    name = mlmodern_local,
+    regular = Latin Modern Roman,
+    sans = Latin Modern Sans,
+    mono = Latin Modern Mono,
+    specialmodule = mlmodern
   },
 }
 

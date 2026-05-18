@@ -76,13 +76,28 @@ classes. It is not part of the public feature surface.
 Loads the standard math stack:
 
 - `amsmath`
-- `amssymb`
-- `amsfonts`
 - `amsthm`
 - `mathtools`
 - `bm`
-- `mathrsfs`
 - `fix-cm`
+
+By default, `math` also loads the legacy symbol/script stack:
+
+- `amssymb`
+- `amsfonts`
+- `mathrsfs`
+
+If `fonts={libertinus}` has already been loaded, the math feature switches to
+`unicode-math` and selects `Libertinus Math`. If `fonts={mlmodern}` has been
+loaded, it follows the legacy `mlmodern` route.
+
+Use `\UseMathFont{...}` before loading the `math` feature to choose explicitly:
+
+- `\UseMathFont{auto}`: default behavior
+- `\UseMathFont{libertinus}`: `unicode-math` with `Libertinus Math`
+- `\UseMathFont{newcm}`: `unicode-math` with `NewComputerModernMath`
+- `\UseMathFont{mlmodern}`: legacy `mlmodern` package route
+- any other value is passed to `\setmathfont{...}`
 
 It also defines default theorem-like environments:
 
