@@ -11,6 +11,7 @@ This file tracks v0.1.x maintenance changes that have not been published as a st
 - Added `mlmodern` as a registry-backed legacy font route.
 - Added automatic Libertinus Math selection when `fonts={libertinus}` is loaded before the `math` feature.
 - Added a Libertinus math test example.
+- Added hyperlink stabilization for repeated heading numbers, reverse heading-to-TOC links, and bidirectional footnote marker links.
 
 ### Changed
 - Updated the Libertinus catalog entry to use TeX Live OTF family names and include mono.

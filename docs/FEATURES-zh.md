@@ -125,7 +125,9 @@ Every finite set has finitely many subsets.
 - PDF 書籤編號並預設展開
 - `linktoc=all`
 - `hyperindex=true`
-- linked footnote markers
+- 即使 counter 被重置、可見編號重複，也盡量保持 PDF destination 名稱唯一
+- 內文標題可反向連到目錄中的對應條目
+- 腳註正文標號與頁腳腳註標號可互相跳轉
 
 同時用 `\hypersetup` 初始化空白 PDF metadata 欄位。
 

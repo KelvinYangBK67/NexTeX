@@ -168,7 +168,9 @@ Loads `hyperref` and `bookmark` with repository defaults:
 - numbered and open PDF bookmarks
 - `linktoc=all`
 - `hyperindex=true`
-- linked footnote markers
+- stable destination names even when counters are reset and visible numbers repeat
+- linked heading titles that jump back to their table-of-contents entries
+- bidirectional footnote marker links between the text marker and the footnote text
 
 It also initializes empty PDF metadata fields with `\hypersetup`.
 

@@ -13,6 +13,7 @@
       hidelinks,
       hyperindex=true,
       hyperfootnotes=false,
+      hypertexnames=false,
       unicode=true,
       psdextra,
       bookmarks=true,
@@ -24,28 +25,187 @@
 \makeatother
 \RequirePackage{bookmark}
 
+\hypersetup{hypertexnames=false}
+
+\newcounter{NextHyperTocLink}
+\newcommand{\NextHyperlinksCurrentTocTarget}{}
+\newif\ifNextHyperlinksHeadingShouldLink
+\makeatletter
+\DeclareRobustCommand{\NextHyperlinksTocAnchor}[1]{%
+  \Hy@raisedlink{\hypertarget{#1}{}}%
+}
+\DeclareRobustCommand{\NextHyperlinksLinkedHeading}[2]{%
+  \texorpdfstring{\hyper@linkstart{link}{#1}#2\hyper@linkend}{#2}%
+}
+
+\let\NextHyperlinksOriginalAddContentsLine\addcontentsline
+\renewcommand{\addcontentsline}[3]{%
+  \ifx\NextHyperlinksCurrentTocTarget\@empty
+    \NextHyperlinksOriginalAddContentsLine{#1}{#2}{#3}%
+  \else
+    \def\NextHyperlinksTocFile{#1}%
+    \def\NextHyperlinksTocName{toc}%
+    \ifx\NextHyperlinksTocFile\NextHyperlinksTocName
+      \edef\NextHyperlinksTocTargetName{\NextHyperlinksCurrentTocTarget}%
+      \addtocontents{toc}{%
+        \protect\NextHyperlinksTocAnchor{\NextHyperlinksTocTargetName}%
+      }%
+      \NextHyperlinksOriginalAddContentsLine{#1}{#2}{#3}%
+    \else
+      \NextHyperlinksOriginalAddContentsLine{#1}{#2}{#3}%
+    \fi
+  \fi
+}
+
+\newcommand{\NextHyperlinksBeginHeadingLink}{%
+  \stepcounter{NextHyperTocLink}%
+  \xdef\NextHyperlinksCurrentTocTarget{next-toc-title-\arabic{NextHyperTocLink}}%
+  \global\NextHyperlinksHeadingShouldLinktrue
+}
+\newcommand{\NextHyperlinksEndHeadingLink}{%
+  \global\NextHyperlinksHeadingShouldLinkfalse
+  \global\let\NextHyperlinksCurrentTocTarget\@empty
+}
+\newcommand{\NextHyperlinksDisplayHeading}[1]{%
+  \ifNextHyperlinksHeadingShouldLink
+    \NextHyperlinksLinkedHeading{\NextHyperlinksCurrentTocTarget}{#1}%
+  \else
+    #1%
+  \fi
+}
+
+\newcommand{\NextHyperlinksPatchHeadingCommands}{%
+  \@ifundefined{NextHyperlinksHeadingCommandsPatched}{%
+    \gdef\NextHyperlinksHeadingCommandsPatched{1}%
+    \@ifundefined{@makechapterhead}{}{%
+      \let\NextHyperlinksOriginalMakeChapterHead\@makechapterhead
+      \def\@makechapterhead##1{%
+        \NextHyperlinksOriginalMakeChapterHead{\NextHyperlinksDisplayHeading{##1}}%
+      }%
+    }%
+    \@ifundefined{@sect}{}{%
+      \let\NextHyperlinksOriginalSect\@sect
+      \def\@sect##1##2##3##4##5##6[##7]##8{%
+        \NextHyperlinksOriginalSect{##1}{##2}{##3}{##4}{##5}{##6}[##7]{%
+          \NextHyperlinksDisplayHeading{##8}%
+        }%
+      }%
+    }%
+    \@ifundefined{chapter}{}{%
+      \let\NextHyperlinksOriginalChapter\chapter
+      \RenewDocumentCommand{\chapter}{s o +m}{%
+        \NextHyperlinksBeginHeadingLink
+        \IfBooleanTF{##1}{%
+          \global\NextHyperlinksHeadingShouldLinkfalse
+          \NextHyperlinksOriginalChapter*{##3}%
+        }{%
+          \IfNoValueTF{##2}
+            {\NextHyperlinksOriginalChapter[##3]{##3}}
+            {\NextHyperlinksOriginalChapter[##2]{##3}}%
+        }%
+        \NextHyperlinksEndHeadingLink
+      }%
+    }%
+    \let\NextHyperlinksOriginalSection\section
+    \RenewDocumentCommand{\section}{s o +m}{%
+      \NextHyperlinksBeginHeadingLink
+      \IfBooleanTF{##1}{%
+        \global\NextHyperlinksHeadingShouldLinkfalse
+        \NextHyperlinksOriginalSection*{##3}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextHyperlinksOriginalSection[##3]{##3}}
+          {\NextHyperlinksOriginalSection[##2]{##3}}%
+      }%
+      \NextHyperlinksEndHeadingLink
+    }%
+    \let\NextHyperlinksOriginalSubsection\subsection
+    \RenewDocumentCommand{\subsection}{s o +m}{%
+      \NextHyperlinksBeginHeadingLink
+      \IfBooleanTF{##1}{%
+        \global\NextHyperlinksHeadingShouldLinkfalse
+        \NextHyperlinksOriginalSubsection*{##3}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextHyperlinksOriginalSubsection[##3]{##3}}
+          {\NextHyperlinksOriginalSubsection[##2]{##3}}%
+      }%
+      \NextHyperlinksEndHeadingLink
+    }%
+    \let\NextHyperlinksOriginalSubsubsection\subsubsection
+    \RenewDocumentCommand{\subsubsection}{s o +m}{%
+      \NextHyperlinksBeginHeadingLink
+      \IfBooleanTF{##1}{%
+        \global\NextHyperlinksHeadingShouldLinkfalse
+        \NextHyperlinksOriginalSubsubsection*{##3}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextHyperlinksOriginalSubsubsection[##3]{##3}}
+          {\NextHyperlinksOriginalSubsubsection[##2]{##3}}%
+      }%
+      \NextHyperlinksEndHeadingLink
+    }%
+    \let\NextHyperlinksOriginalParagraph\paragraph
+    \RenewDocumentCommand{\paragraph}{s o +m}{%
+      \NextHyperlinksBeginHeadingLink
+      \IfBooleanTF{##1}{%
+        \global\NextHyperlinksHeadingShouldLinkfalse
+        \NextHyperlinksOriginalParagraph*{##3}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextHyperlinksOriginalParagraph[##3]{##3}}
+          {\NextHyperlinksOriginalParagraph[##2]{##3}}%
+      }%
+      \NextHyperlinksEndHeadingLink
+    }%
+    \let\NextHyperlinksOriginalSubparagraph\subparagraph
+    \RenewDocumentCommand{\subparagraph}{s o +m}{%
+      \NextHyperlinksBeginHeadingLink
+      \IfBooleanTF{##1}{%
+        \global\NextHyperlinksHeadingShouldLinkfalse
+        \NextHyperlinksOriginalSubparagraph*{##3}%
+      }{%
+        \IfNoValueTF{##2}
+          {\NextHyperlinksOriginalSubparagraph[##3]{##3}}
+          {\NextHyperlinksOriginalSubparagraph[##2]{##3}}%
+      }%
+      \NextHyperlinksEndHeadingLink
+    }%
+  }{}%
+}
+\AtBeginDocument{\NextHyperlinksPatchHeadingCommands}
+\makeatother
+
 \newcounter{NextHyperFootnoteLink}
 \makeatletter
-\let\NextHyperlinksOriginalFootnote\footnote
-\RenewDocumentCommand{\footnote}{o m}{%
+\RenewDocumentCommand{\footnote}{o +m}{%
   \stepcounter{NextHyperFootnoteLink}%
+  \edef\NextHyperFootnoteMarkTarget{next-footnote-mark-\arabic{NextHyperFootnoteLink}}%
   \edef\NextHyperFootnoteTextTarget{next-footnote-text-\arabic{NextHyperFootnoteLink}}%
   \begingroup
     \let\NextHyperlinksOriginalMakeFnMark\@makefnmark
     \renewcommand{\@makefnmark}{%
+      \Hy@raisedlink{\hypertarget{\NextHyperFootnoteMarkTarget}{}}%
       \hyperlink{\NextHyperFootnoteTextTarget}{\NextHyperlinksOriginalMakeFnMark}%
     }%
     \IfNoValueTF{#1}
       {%
-        \NextHyperlinksOriginalFootnote{%
-          \Hy@raisedlink{\hypertarget{\NextHyperFootnoteTextTarget}{}}#2%
-        }%
+        \refstepcounter\@mpfn
+        \protected@xdef\@thefnmark{\thempfn}%
       }
       {%
-        \NextHyperlinksOriginalFootnote[#1]{%
-          \Hy@raisedlink{\hypertarget{\NextHyperFootnoteTextTarget}{}}#2%
-        }%
+        \begingroup
+          \csname c@\@mpfn\endcsname #1\relax
+          \unrestored@protected@xdef\@thefnmark{\thempfn}%
+        \endgroup
       }%
+    \@footnotemark
+    \renewcommand{\@makefnmark}{%
+      \hyperlink{\NextHyperFootnoteMarkTarget}{\NextHyperlinksOriginalMakeFnMark}%
+    }%
+    \@footnotetext{%
+      \Hy@raisedlink{\hypertarget{\NextHyperFootnoteTextTarget}{}}#2%
+    }%
   \endgroup
 }
 \makeatother
