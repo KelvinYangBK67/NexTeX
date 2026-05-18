@@ -160,9 +160,9 @@ core/fonts/system.tex
 
 - `pahlavi`
 - `khitan_small`
-- Studio 建立的自定義模組名
+- 本地擴展建立的自定義模組名
 
-為了向後相容，core 仍會把舊的 `specialmodule = vertical` 宣告視為 `layout = vertical`，並發出 deprecation warning。新的 catalog 條目和 Studio 生成條目不應再寫 `specialmodule = vertical`。
+為了向後相容，core 仍會把舊的 `specialmodule = vertical` 宣告視為 `layout = vertical`，並發出 deprecation warning。新的 catalog 條目和生成條目不應再寫 `specialmodule = vertical`。
 
 ## 註冊語法
 
@@ -256,7 +256,7 @@ catalog/fonts.tex
 | `armenian` | `HY` | `local` | 否 | 亞美尼亞文 |
 | `hindi` | `HI` | `local` | 是 | 印地語；global 只套用於 Devanagari Unicode 區段，不啟用 Sanskrit 專用斷行規則 |
 | `sanskrit` | `SA` | `local` | 是 | 梵語；global 只套用於 Devanagari 與 Vedic Unicode 區段 |
-| `devanagari` | `DEV` | `local` | 否 | `.impe` 工作流用通用天城體 family |
+| `devanagari` | `DEV` | `local` | 否 | 通用天城體 family |
 | `tamil` | `TA` | `local` | 否 | 泰米爾文 |
 | `brahmi` | `BR` | `local` | 否 | 婆羅米文 |
 | `georgian` | `KA` | `local` | 否 | 格魯吉亞文 |
@@ -401,7 +401,7 @@ IMPE LaTeX System 目前支援兩種字體 fallback 模式：
 - `layout = vertical` 會選擇 `core/fonts/interface.tex` 內建的 vertical layout route
 - `verticalstrategy`、`verticalrotation`、`verticalorigin`、`verticaltopcorrection` 是 `layout = vertical` 的參數
 - `specialmodule = pahlavi` 與 `specialmodule = khitan_small` 會從 `modules/fonts/` 載入 script-specific 支持模組
-- Studio 自定義模組也透過 `specialmodule = <custom_module_name>` 表達
+- 自定義擴展模組也透過 `specialmodule = <custom_module_name>` 表達
 
 這代表：
 

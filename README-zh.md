@@ -2,80 +2,44 @@
 
 [English](README.md)
 
-`IMPE LaTeX System` 是一套 LaTeX 模板系統，目前按四層結構組織：
+`IMPE LaTeX System` 是一套 LaTeX 模板系統，主要由四層組成：
 
-- `core/`：穩定機制層
-- `catalog/`：註冊表與 preset 層
-- `modules/`：可擴展實作層
+- `core/`：穩定機制
+- `catalog/`：字體、版面與功能註冊
+- `modules/`：可擴展實作
 - `assets/`：本地執行資源，例如字體
 
 目前已發佈版本：
 - `v0.1.2`
 
-開發中版本：
-- `v0.2.0`（未發佈）
+維護線：
+- `v0.1.x`
 
 版本記錄：
 - 已發佈版本：[CHANGELOG-zh.md](./CHANGELOG-zh.md)
-- 開發中變更：[CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md)
+- 未發佈變更：[CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md)
 
 ## 目標
 
-IMPE LaTeX System 的設計目標，不是只做一份零散的 preamble，而是提供一套完整且一致的模板系統。
+IMPE LaTeX System 的目標不是堆疊零散 preamble，而是提供一套一致、可重用的模板系統：
 
-它希望統一處理這幾件事：
-
-- layout preset
-- 全域與區域字體管理
+- layout presets
+- 全域與局部字體管理
 - 多文字系統支持
-- 可組合的 feature 載入
-- 可在多份文件之間重複使用的專案設定
+- 可組合 feature 載入
+- 可在多份文件與多台機器之間重用的專案設定
 
-這套系統特別適合下面這類工作：
-
-- 中日韓與其他文字系統混排
-- 歷史文字或非拉丁文字支持
-- 教學講義與課件
-- 研究筆記與長篇文稿
-- 論文、書稿與 beamer 投影片並存的工作流
-
-## 設計原則
-
-IMPE LaTeX System 目前圍繞三個實際原則來設計：
-
-- **可遷移**
-  系統既應該能在倉庫內直接使用，也應該能作為可安裝模板，跨專案與跨機器使用。
-- **可延展**
-  穩定框架邏輯、註冊資料、具體模組、執行資源彼此分離，讓系統能長期擴展，而不是最後退化成一大段 preamble。
-- **使用輕量**
-  文件端的使用方式應該保持簡潔，核心圍繞 `\UseTemplateSet{...}`，而不是每份文件都手工重複配置。
-
-在倉庫結構上，這個原則落成：
-
-- `core/`：穩定機制
-- `catalog/`：註冊表
-- `modules/`：可擴展實作
-- `assets/`：本地執行資源
-
-## 典型使用場景
-
-IMPE LaTeX System 主要面向這些場景：
-
-- 需要在多篇文章、講義或書稿中保持一致版式
-- 同時需要全域字體與區域 script command 的多文字文件
-- 需要超出一般 Latin / CJK 範圍的字體與文字系統支持
-- 希望把模板系統作為可重用套件，在不同專案與不同電腦之間遷移
-- 同時維護 paper class 文件與 beamer 投影片
+它特別適合混排 CJK、歷史文字、非拉丁文字、教學材料、研究筆記、長篇文稿與 beamer 簡報。
 
 ## 倉庫結構
 
 ```text
 core/       穩定子系統邏輯
-catalog/    fonts / layout / features 註冊表
+catalog/    字體 / 版面 / 功能註冊
 modules/    可擴展實作
-assets/     本地執行資源（字體不由 Git 追蹤）
-package/    可安裝的公開入口檔案
-scripts/    安裝與發布腳本
+assets/     本地執行資源，字體檔案不由 Git 追蹤
+package/    可安裝的公開入口
+scripts/    安裝與發佈腳本
 docs/       詳細文件
 examples/   除錯 / 稽核示例
 ```
@@ -89,11 +53,6 @@ examples/   除錯 / 稽核示例
 - `IMPE-LaTeX-System-vX.Y.Z-core.zip`
   只包含模板邏輯，不包含字體檔案。
 
-建議使用方式：
-
-- 如果你希望由本地字體庫生成可直接安裝的完整套件，使用 `full`
-- 如果你只想使用系統邏輯、並自行管理字體，使用 `core`
-
 生成方式：
 
 ```bat
@@ -102,62 +61,13 @@ scripts\build_release.bat
 
 生成後的 zip 檔會放在 `dist/` 中。
 
-## IMPE Font-First Tools
-
-第一階段的視覺化工作流以 YAML `.impe` 來源檔為中心。UI 與 CLI 會編輯這個中介檔，生成 TeX，然後再編譯 PDF。
-
-在倉庫根目錄執行 CLI：
-
-```powershell
-python -m tools.impe.cli generate tools\examples\minimal.impe
-python -m tools.impe.cli build tools\examples\minimal.impe
-python -m tools.impe.cli fonts scan
-python -m tools.impe.cli fonts list
-python -m tools.impe.cli fonts check tools\examples\minimal.impe
-```
-
-啟動輕量的 block-based editor：
-
-```powershell
-python -m tools.impe.cli studio
-```
-
-重新設計後的 workbench UI 也可以直接啟動：
-
-```powershell
-python -m impe_studio.app
-```
-
-檢查本地 Studio 環境：
-
-```powershell
-python -m impe_studio doctor
-python -m impe_studio doctor --pdf
-python -m impe_studio doctor --fonts
-python -m impe_studio doctor --json --no-optional
-```
-
-目前 MVP 有意保持 font-first：普通文字就是純內容；使用者套用特殊文字系統後，內容會保存為 `font_block` 或 `font_span`，並由生成器輸出對應的字體命令。
-
 ## 安裝方式
 
-對於完整套件，解壓 release zip 後直接執行：
+對於完整套件，解壓 release zip 後執行：
 
 ```bat
 install.bat
 ```
-
-安裝腳本會把整套系統安裝到使用者 `texmf`，包括：
-
-- `nextsystem.sty`
-- `nextart.cls`
-- `nextbook.cls`
-- `nextreport.cls`
-- `nextbeamer.cls`
-- `core/`
-- `catalog/`
-- `modules/`
-- `assets/`（若 release 套件中含有）
 
 也可以直接執行 PowerShell 腳本：
 
@@ -165,9 +75,9 @@ install.bat
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-安裝腳本會把套件放進使用者 `texmf`，因此在該機器上之後可以全局使用。
+安裝腳本會把套件放進使用者 `texmf`，因此之後可以全域使用。
 
-## 安裝後的使用方式
+## 使用方式
 
 最簡示例：
 
@@ -181,7 +91,7 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 }
 ```
 
-也可以這樣使用：
+也可以使用一般 class 加 package：
 
 ```tex
 \documentclass{article}
@@ -189,31 +99,15 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 \UseTemplateSet{...}
 ```
 
-這也是安裝後建議的日常使用方式：
+## 倉庫內開發
 
-- 選擇一個 wrapper class，例如 `nextbeamer`
-- 宣告一份 template set
-- 讓文件 preamble 保持簡潔
-
-## 倉庫內開發時的呼叫方式
-
-在本倉庫中，示例檔案透過 `package/` 下的入口來呼叫系統：
+倉庫內示例直接載入 `package/` 下的入口：
 
 ```tex
 \usepackage{import}
 \subimport{../../package/}{system.tex}
 \UseTemplateSet{...}
 ```
-
-這樣開發態與安裝後的套件結構可以保持一致。
-
-## 示例
-
-目前 fonts 的主要稽核入口為：
-
-- `examples/font_catalog_debug/main.tex`
-
-請使用 XeLaTeX 編譯。
 
 ## 文件
 
@@ -226,11 +120,9 @@ powershell -ExecutionPolicy Bypass -File .\install.ps1
 
 ## 說明
 
-- 倉庫根層的 MIT 授權只適用於 IMPE LaTeX System 程式碼本身，不會自動適用於本地字體庫或 release 所使用的第三方字體。
-- 第三方字體的授權與再分發聲明統一放在 `font_licenses/` 目錄下。
-- 一般字體來源說明，包括 `cmu` 這類非 bundled 依賴，請見 `docs/FONTS-zh.md`。
-- Git 倉庫本身採用 source-only 方式，不追蹤 `assets/fonts/` 下的字體庫。
-- `full` 版面向希望由本地字體庫生成完整安裝包的人。
-- `core` 版面向只需要系統邏輯、不需要字體庫的人。
-- 目前仍處於 `0.x` 階段，在到達 `1.0.0` 之前，介面與目錄仍可能繼續收束與微調。
-- 本專案由作者主導設計與維護，Codex 協助部分重構、腳本撰寫與文件整理工作。
+- 倉庫根層的 MIT 授權只適用於 IMPE LaTeX System 程式碼本身，不會自動套用到第三方字體。
+- 第三方字體授權與再分發聲明放在 `font_licenses/`。
+- 一般字體來源與非 bundled 依賴記錄在 `docs/FONTS-zh.md`。
+- Git 倉庫保持 source-only，不追蹤 `assets/fonts/` 下的字體庫。
+- `full` 面向需要本地字體庫完整安裝包的使用者。
+- `core` 面向只需要模板邏輯、不需要 bundled 字體的使用者。

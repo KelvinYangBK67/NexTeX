@@ -12,8 +12,8 @@
 Current released version:
 - `v0.1.2`
 
-Development version:
-- `v0.2.0` (unreleased)
+Maintenance line:
+- `v0.1.x`
 
 Version history:
 - Released versions: [CHANGELOG.md](./CHANGELOG.md)
@@ -77,7 +77,6 @@ modules/    extendable implementations
 assets/     local runtime resources (not tracked font files)
 package/    installable public entry files
 scripts/    install and release scripts
-tools/      `.impe` CLI, generator, font registry, and Studio Lite
 docs/       detailed subsystem docs
 examples/   debug / audit examples
 ```
@@ -103,46 +102,6 @@ scripts\build_release.bat
 ```
 
 This creates versioned zip files under `dist/`.
-
-## IMPE Font-First Tools
-
-The first-stage visual workflow is centered on a YAML `.impe` source file. The
-UI and CLI edit that intermediate file, generate TeX, and then build a PDF.
-
-Run the CLI from the repository root:
-
-```powershell
-python -m tools.impe.cli generate tools\examples\minimal.impe
-python -m tools.impe.cli build tools\examples\minimal.impe
-python -m tools.impe.cli fonts scan
-python -m tools.impe.cli fonts list
-python -m tools.impe.cli fonts check tools\examples\minimal.impe
-```
-
-Open the lightweight block-based editor with:
-
-```powershell
-python -m tools.impe.cli studio
-```
-
-The redesigned workbench UI can also be launched directly:
-
-```powershell
-python -m impe_studio.app
-```
-
-Check the local Studio environment with:
-
-```powershell
-python -m impe_studio doctor
-python -m impe_studio doctor --pdf
-python -m impe_studio doctor --fonts
-python -m impe_studio doctor --json --no-optional
-```
-
-The MVP deliberately stays font-first: ordinary text is plain content, while
-user-applied special-script text is stored as `font_block` or `font_span` and
-rendered with generated font commands.
 
 ## Installation
 

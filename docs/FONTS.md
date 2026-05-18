@@ -192,11 +192,11 @@ Mongolian, Manchu, and Old Uyghur-style entries. Its parameters are:
 
 - `pahlavi`
 - `khitan_small`
-- custom module names created by Studio
+- custom module names created by local extensions
 
 For backward compatibility, the core still treats old
 `specialmodule = vertical` declarations as `layout = vertical` and emits a
-deprecation warning. New catalog entries and Studio-generated entries should not
+deprecation warning. New catalog entries and generated entries should not
 write `specialmodule = vertical`.
 
 ## Registration Syntax
@@ -292,7 +292,7 @@ The current catalog registers the following families. `globalfonts = {...}` only
 | `armenian` | `HY` | `local` | no | Armenian |
 | `hindi` | `HI` | `local` | yes | Hindi; global applies only to Devanagari Unicode blocks, without Sanskrit line-breaking rules |
 | `sanskrit` | `SA` | `local` | yes | Sanskrit; global applies only to Devanagari and Vedic Unicode blocks |
-| `devanagari` | `DEV` | `local` | no | Devanagari generic family for `.impe` workflows |
+| `devanagari` | `DEV` | `local` | no | Devanagari generic family |
 | `tamil` | `TA` | `local` | no | Tamil |
 | `brahmi` | `BR` | `local` | no | Brahmi |
 | `georgian` | `KA` | `local` | no | Georgian |
@@ -442,7 +442,7 @@ TeX modules:
   `verticaltopcorrection` are parameters for `layout = vertical`
 - `specialmodule = pahlavi` and `specialmodule = khitan_small` import
   script-specific support modules from `modules/fonts/`
-- custom Studio modules are also expressed through
+- custom extension modules are also expressed through
   `specialmodule = <custom_module_name>`
 
 This means:
