@@ -10,13 +10,34 @@
 \RequirePackage{zhnumber}
 
 \makeatletter
-\@ifclassloaded{beamer}{}{\RequirePackage{titletoc}}
-
 \newcommand{\NextUiZhSetName}[2]{%
   \@ifundefined{#1}
     {\expandafter\def\csname #1\endcsname{#2}}
     {\expandafter\renewcommand\csname #1\endcsname{#2}}%
 }
+
+\newcommand{\UseZhInlineTitleSubtitle}{%
+  \renewcommand{\NextTitleBlock}{%
+    \begin{center}%
+      {\NextTitleFont
+        \@title
+        \ifx\@subtitle\@empty
+        \else
+          ：\@subtitle
+        \fi
+        \par}%
+      \vskip 1.5em%
+      {\NextTitleAuthorFont
+        \lineskip 0.5em%
+        \begin{tabular}[t]{c}%
+          \@author
+        \end{tabular}\par}%
+      \vskip 1em%
+      {\NextTitleDateFont \@date \par}%
+    \end{center}%
+  }%
+}
+\newcommand{\NextUseZhInlineTitleSubtitle}{\UseZhInlineTitleSubtitle}
 
 \newif\ifNextUiZhDateUserSet
 \def\NextUiZhDefaultDate{\today}%
@@ -57,11 +78,17 @@
     \vspace*{50\p@}%
     {\parindent \z@ \raggedright \normalfont
       \ifnum \c@secnumdepth >\m@ne
-        \if@mainmatter
+        \@ifundefined{if@mainmatter}{%
           \huge\bfseries \thechapter
           \par\nobreak
           \vskip 20\p@
-        \fi
+        }{%
+          \if@mainmatter
+            \huge\bfseries \thechapter
+            \par\nobreak
+            \vskip 20\p@
+          \fi
+        }%
       \fi
       \interlinepenalty\@M
       \Huge \bfseries ##1\par\nobreak
@@ -77,34 +104,51 @@
   \renewcommand{\thesubsubsection}{\arabic{subsubsection}.}%
 }
 
+\newdimen\NextUiZhTocMinLabelWidth
+\newdimen\NextUiZhTocLabelWidth
+\newcommand{\NextUiZhTocNumberline}[1]{%
+  \settowidth{\NextUiZhTocLabelWidth}{#1\hspace{0.8em}}%
+  \ifdim\NextUiZhTocLabelWidth<\NextUiZhTocMinLabelWidth
+    \NextUiZhTocLabelWidth=\NextUiZhTocMinLabelWidth
+  \fi
+  \hb@xt@\NextUiZhTocLabelWidth{#1\hfil}%
+}
+\newcommand{\NextUiZhDottedTocLine}[5]{%
+  \ifnum #1>\c@tocdepth \else
+    \vskip \z@ \@plus.2\p@
+    {\leftskip #2\relax
+     \rightskip \@tocrmarg
+     \parfillskip -\rightskip
+     \parindent #2\relax
+     \@afterindenttrue
+     \interlinepenalty\@M
+     \leavevmode
+     \NextUiZhTocMinLabelWidth=#3\relax
+     \advance\leftskip \NextUiZhTocMinLabelWidth
+     \null\nobreak\hskip -\leftskip
+     \begingroup
+       \let\numberline\NextUiZhTocNumberline
+       #4%
+     \endgroup
+     \nobreak
+     \leaders\hbox{$\m@th
+       \mkern \@dotsep mu\hbox{.}\mkern \@dotsep mu$}\hfill
+     \nobreak
+     \hb@xt@\@pnumwidth{\hfil\normalfont\normalcolor #5}%
+     \par}%
+  \fi
+}
+
 \newcommand{\NextUiZhApplyTocSpacing}{%
-  \@ifundefined{titlecontents}{}{%
-    \@ifundefined{chapter}{}{%
-      \titlecontents{chapter}
-        [0em]
-        {}
-        {\thecontentslabel\hspace{1em}}
-        {}
-        {\titlerule*[0.8em]{.}\contentspage}%
+  \@ifclassloaded{beamer}{}{%
+    \@ifundefined{@dottedtocline}{}{%
+      \@ifundefined{chapter}{}{%
+        \renewcommand*{\l@chapter}{\NextUiZhDottedTocLine{0}{0em}{1.5em}}%
+      }%
+      \renewcommand*{\l@section}{\NextUiZhDottedTocLine{1}{2em}{2.3em}}%
+      \renewcommand*{\l@subsection}{\NextUiZhDottedTocLine{2}{4em}{3.2em}}%
+      \renewcommand*{\l@subsubsection}{\NextUiZhDottedTocLine{3}{6em}{4.1em}}%
     }%
-    \titlecontents{section}
-      [2em]
-      {}
-      {\thecontentslabel\hspace{0.75em}}
-      {}
-      {\titlerule*[0.8em]{.}\contentspage}%
-    \titlecontents{subsection}
-      [4em]
-      {}
-      {\thecontentslabel\hspace{0.65em}}
-      {}
-      {\titlerule*[0.8em]{.}\contentspage}%
-    \titlecontents{subsubsection}
-      [6em]
-      {}
-      {\thecontentslabel\hspace{0.55em}}
-      {}
-      {\titlerule*[0.8em]{.}\contentspage}%
   }%
 }
 
@@ -136,39 +180,47 @@
 }
 \newcommand{\NextUiZhPatchStarredToc}{%
   \@ifclassloaded{beamer}{}{%
-    \let\NextUiZhOriginalTableOfContents\tableofcontents
-    \renewcommand{\tableofcontents}{%
-      \NoTocNext
-      \NextUiZhOriginalTableOfContents
-    }%
-    \@ifundefined{chapter}{}{%
-      \let\NextUiZhOriginalChapter\chapter
-      \RenewDocumentCommand{\chapter}{s o m}{%
-        \IfBooleanTF{##1}{%
-          \NextUiZhOriginalChapter*{##3}%
-          \IfNoValueTF{##2}
-            {\NextUiZhMaybeAddContents{chapter}{##3}}
-            {\NextUiZhMaybeAddContents{chapter}{##2}}%
-        }{%
-          \IfNoValueTF{##2}
-            {\NextUiZhOriginalChapter{##3}}
-            {\NextUiZhOriginalChapter[##2]{##3}}%
+    \@ifundefined{NextUiZhStarredTocPatched}{%
+      \gdef\NextUiZhStarredTocPatched{1}%
+      \let\NextUiZhOriginalTableOfContents\tableofcontents
+      \renewcommand{\tableofcontents}{%
+        \NoTocNext
+        \NextUiZhOriginalTableOfContents
+      }%
+      % hyperref-aware heading patches also wrap \chapter/\section; stacking both
+      % wrappers can recurse when \tableofcontents calls starred headings.
+      % Keep the TOC guard active; hyperlinks.tex owns the heading wrappers.
+      \@ifpackageloaded{hyperref}{}{%
+        \@ifundefined{chapter}{}{%
+          \let\NextUiZhOriginalChapter\chapter
+          \RenewDocumentCommand{\chapter}{s o +m}{%
+            \IfBooleanTF{##1}{%
+              \NextUiZhOriginalChapter*{##3}%
+              \IfNoValueTF{##2}
+                {\NextUiZhMaybeAddContents{chapter}{##3}}
+                {\NextUiZhMaybeAddContents{chapter}{##2}}%
+            }{%
+              \IfNoValueTF{##2}
+                {\NextUiZhOriginalChapter{##3}}
+                {\NextUiZhOriginalChapter[##2]{##3}}%
+            }%
+          }%
+        }%
+        \let\NextUiZhOriginalSection\section
+        \RenewDocumentCommand{\section}{s o +m}{%
+          \IfBooleanTF{##1}{%
+            \NextUiZhOriginalSection*{##3}%
+            \IfNoValueTF{##2}
+              {\NextUiZhMaybeAddContents{section}{##3}}
+              {\NextUiZhMaybeAddContents{section}{##2}}%
+          }{%
+            \IfNoValueTF{##2}
+              {\NextUiZhOriginalSection{##3}}
+              {\NextUiZhOriginalSection[##2]{##3}}%
+          }%
         }%
       }%
-    }%
-    \let\NextUiZhOriginalSection\section
-    \RenewDocumentCommand{\section}{s o m}{%
-      \IfBooleanTF{##1}{%
-        \NextUiZhOriginalSection*{##3}%
-        \IfNoValueTF{##2}
-          {\NextUiZhMaybeAddContents{section}{##3}}
-          {\NextUiZhMaybeAddContents{section}{##2}}%
-      }{%
-        \IfNoValueTF{##2}
-          {\NextUiZhOriginalSection{##3}}
-          {\NextUiZhOriginalSection[##2]{##3}}%
-      }%
-    }%
+    }{}%
   }%
 }
 

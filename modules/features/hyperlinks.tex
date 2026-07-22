@@ -94,82 +94,86 @@
     \@ifundefined{chapter}{}{%
       \let\NextHyperlinksOriginalChapter\chapter
       \RenewDocumentCommand{\chapter}{s o +m}{%
-        \NextHyperlinksBeginHeadingLink
         \IfBooleanTF{##1}{%
-          \global\NextHyperlinksHeadingShouldLinkfalse
           \NextHyperlinksOriginalChapter*{##3}%
+          \@ifundefined{NextUiZhMaybeAddContents}{}{%
+            \IfNoValueTF{##2}
+              {\NextUiZhMaybeAddContents{chapter}{##3}}
+              {\NextUiZhMaybeAddContents{chapter}{##2}}%
+          }%
         }{%
+          \NextHyperlinksBeginHeadingLink
           \IfNoValueTF{##2}
             {\NextHyperlinksOriginalChapter[##3]{##3}}
             {\NextHyperlinksOriginalChapter[##2]{##3}}%
+          \NextHyperlinksEndHeadingLink
         }%
-        \NextHyperlinksEndHeadingLink
       }%
     }%
     \let\NextHyperlinksOriginalSection\section
     \RenewDocumentCommand{\section}{s o +m}{%
-      \NextHyperlinksBeginHeadingLink
       \IfBooleanTF{##1}{%
-        \global\NextHyperlinksHeadingShouldLinkfalse
         \NextHyperlinksOriginalSection*{##3}%
+        \@ifundefined{NextUiZhMaybeAddContents}{}{%
+          \IfNoValueTF{##2}
+            {\NextUiZhMaybeAddContents{section}{##3}}
+            {\NextUiZhMaybeAddContents{section}{##2}}%
+        }%
       }{%
+        \NextHyperlinksBeginHeadingLink
         \IfNoValueTF{##2}
           {\NextHyperlinksOriginalSection[##3]{##3}}
           {\NextHyperlinksOriginalSection[##2]{##3}}%
+        \NextHyperlinksEndHeadingLink
       }%
-      \NextHyperlinksEndHeadingLink
     }%
     \let\NextHyperlinksOriginalSubsection\subsection
     \RenewDocumentCommand{\subsection}{s o +m}{%
-      \NextHyperlinksBeginHeadingLink
       \IfBooleanTF{##1}{%
-        \global\NextHyperlinksHeadingShouldLinkfalse
         \NextHyperlinksOriginalSubsection*{##3}%
       }{%
+        \NextHyperlinksBeginHeadingLink
         \IfNoValueTF{##2}
           {\NextHyperlinksOriginalSubsection[##3]{##3}}
           {\NextHyperlinksOriginalSubsection[##2]{##3}}%
+        \NextHyperlinksEndHeadingLink
       }%
-      \NextHyperlinksEndHeadingLink
     }%
     \let\NextHyperlinksOriginalSubsubsection\subsubsection
     \RenewDocumentCommand{\subsubsection}{s o +m}{%
-      \NextHyperlinksBeginHeadingLink
       \IfBooleanTF{##1}{%
-        \global\NextHyperlinksHeadingShouldLinkfalse
         \NextHyperlinksOriginalSubsubsection*{##3}%
       }{%
+        \NextHyperlinksBeginHeadingLink
         \IfNoValueTF{##2}
           {\NextHyperlinksOriginalSubsubsection[##3]{##3}}
           {\NextHyperlinksOriginalSubsubsection[##2]{##3}}%
+        \NextHyperlinksEndHeadingLink
       }%
-      \NextHyperlinksEndHeadingLink
     }%
     \let\NextHyperlinksOriginalParagraph\paragraph
     \RenewDocumentCommand{\paragraph}{s o +m}{%
-      \NextHyperlinksBeginHeadingLink
       \IfBooleanTF{##1}{%
-        \global\NextHyperlinksHeadingShouldLinkfalse
         \NextHyperlinksOriginalParagraph*{##3}%
       }{%
+        \NextHyperlinksBeginHeadingLink
         \IfNoValueTF{##2}
           {\NextHyperlinksOriginalParagraph[##3]{##3}}
           {\NextHyperlinksOriginalParagraph[##2]{##3}}%
+        \NextHyperlinksEndHeadingLink
       }%
-      \NextHyperlinksEndHeadingLink
     }%
     \let\NextHyperlinksOriginalSubparagraph\subparagraph
     \RenewDocumentCommand{\subparagraph}{s o +m}{%
-      \NextHyperlinksBeginHeadingLink
       \IfBooleanTF{##1}{%
-        \global\NextHyperlinksHeadingShouldLinkfalse
         \NextHyperlinksOriginalSubparagraph*{##3}%
       }{%
+        \NextHyperlinksBeginHeadingLink
         \IfNoValueTF{##2}
           {\NextHyperlinksOriginalSubparagraph[##3]{##3}}
           {\NextHyperlinksOriginalSubparagraph[##2]{##3}}%
+        \NextHyperlinksEndHeadingLink
       }%
-      \NextHyperlinksEndHeadingLink
     }%
   }{}%
 }

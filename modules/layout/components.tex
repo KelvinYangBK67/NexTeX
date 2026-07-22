@@ -198,6 +198,12 @@
     \usetheme{Madrid}
     \usefonttheme{professionalfonts}
     \setbeamertemplate{navigation symbols}{}
+    \ifdefined\NextSystemUiTag
+      \def\NextLayoutZhTag{zh}%
+      \ifx\NextSystemUiTag\NextLayoutZhTag
+        \setbeamertemplate{footline}[frame number]%
+      \fi
+    \fi
     \providecommand{\NextBeamerAuthorShape}{\upshape}
     \setbeamerfont{title}{family=\sffamily,series=\bfseries}
     \setbeamerfont{subtitle}{family=\sffamily,series=\mdseries,size=\large}
