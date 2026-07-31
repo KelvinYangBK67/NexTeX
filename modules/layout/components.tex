@@ -73,6 +73,21 @@
   }
 }
 
+% Standard LaTeX TOC entries reserve a fixed-width number box. Grow that box
+% to the label's natural width when necessary, while retaining the class's
+% original minimum width for short labels.
+\newdimen\NextLayoutTocLabelWidth
+\newcommand{\NextLayoutTocNumberline}[1]{%
+  \settowidth{\NextLayoutTocLabelWidth}{#1\hspace{0.8em}}%
+  \ifdim\NextLayoutTocLabelWidth<\@tempdima
+    \NextLayoutTocLabelWidth=\@tempdima
+  \fi
+  \hb@xt@\NextLayoutTocLabelWidth{#1\hfil}%
+}
+\newcommand{\NextLayoutDynamicTocLabelSpacing}{%
+  \let\numberline\NextLayoutTocNumberline
+}
+
 \makeatother
 
 \cs_new_protected:cpn { __layout_component_page_a4_1in: }
@@ -118,6 +133,7 @@
 
 \cs_new_protected:cpn { __layout_component_text_en_doc: }
   {
+    \NextLayoutDynamicTocLabelSpacing
     \RequirePackage{setspace}
     \setstretch{1.40}
     \setlength{\parindent}{15pt}
@@ -126,6 +142,7 @@
 
 \cs_new_protected:cpn { __layout_component_text_en_book: }
   {
+    \NextLayoutDynamicTocLabelSpacing
     \RequirePackage{setspace}
     \setstretch{1.42}
     \setlength{\parindent}{15pt}
@@ -137,6 +154,7 @@
 
 \cs_new_protected:cpn { __layout_component_text_zh: }
   {
+    \NextLayoutDynamicTocLabelSpacing
     \RequirePackage{indentfirst}
     \RequirePackage{setspace}
     \RequirePackage{enumitem}

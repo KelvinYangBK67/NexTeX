@@ -3,7 +3,9 @@
 
 \RequirePackage{expl3}
 \RequirePackage{xparse}
-\RequirePackage{fontspec}
+% Text-family selection must not overwrite the legacy Computer Modern math
+% alphabets. Explicit unicode-math routes configure their own math font later.
+\RequirePackage[no-math]{fontspec}
 
 % -----------------------------------------------------------------
 % System defaults

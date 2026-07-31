@@ -80,13 +80,15 @@ features 保持扁平、可組合。
 - `amsfonts`
 - `mathrsfs`
 
-如果已經載入 `fonts={libertinus}`，`math` feature 會切換到
-`unicode-math` 並選用 `Libertinus Math`。如果已經載入
-`fonts={mlmodern}`，則會跟隨傳統 `mlmodern` 路線。
+文字字體透過 `fontspec` 的 `no-math` 選項載入，因此
+`fonts={libertinus}` 不會改變任何數學字母表；數學字體預設仍使用傳統
+Computer Modern 設定。如果已經載入 `fonts={mlmodern}`，`math` feature
+則會跟隨傳統 `mlmodern` 路線。
 
 可在載入 `math` feature 前用 `\UseMathFont{...}` 明確指定數學字體：
 
-- `\UseMathFont{auto}`：預設行為
+- `\UseMathFont{auto}`：保留 Computer Modern 數學字體，除非載入了
+  `mlmodern` 等明確的傳統字體路線
 - `\UseMathFont{libertinus}`：使用 `unicode-math` 與 `Libertinus Math`
 - `\UseMathFont{newcm}`：使用 `unicode-math` 與 `NewComputerModernMath`
 - `\UseMathFont{mlmodern}`：使用傳統 `mlmodern` package 路線

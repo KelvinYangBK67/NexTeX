@@ -87,13 +87,15 @@ By default, `math` also loads the legacy symbol/script stack:
 - `amsfonts`
 - `mathrsfs`
 
-If `fonts={libertinus}` has already been loaded, the math feature switches to
-`unicode-math` and selects `Libertinus Math`. If `fonts={mlmodern}` has been
-loaded, it follows the legacy `mlmodern` route.
+Text fonts are loaded through `fontspec` with its `no-math` option, so loading
+`fonts={libertinus}` does not change any math alphabet: the default remains the
+legacy Computer Modern math setup. If `fonts={mlmodern}` has been loaded, the
+math feature follows the legacy `mlmodern` route.
 
 Use `\UseMathFont{...}` before loading the `math` feature to choose explicitly:
 
-- `\UseMathFont{auto}`: default behavior
+- `\UseMathFont{auto}`: keep Computer Modern math unless an explicit legacy
+  font route such as `mlmodern` is loaded
 - `\UseMathFont{libertinus}`: `unicode-math` with `Libertinus Math`
 - `\UseMathFont{newcm}`: `unicode-math` with `NewComputerModernMath`
 - `\UseMathFont{mlmodern}`: legacy `mlmodern` package route
