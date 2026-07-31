@@ -204,9 +204,17 @@ See \textcite{doe2026} for a narrative citation, or use
 公開項目：
 
 - `\IndexTitle`
-  可選索引標題。若要覆寫預設值，請在載入 feature 前定義。
-- `\Term{key}{display}{description}`
-  印出粗體術語和短說明，並把第一次出現的位置加入索引。若已載入 `hyperlinks`，索引條目會連回正文術語。
+  可選索引標題覆寫。若要覆寫，請在載入 feature 前定義；否則使用經過
+  UI 本地化的標準 `\indexname`。
+- `\Term[options]{display}[description]`
+  印出粗體術語，並把第一次出現的位置加入索引；方括號中的
+  `description` 可完全省略。
+  預設直接以 `display` 作為字典排序值與去重依據，只有兩者需要不同時才使用
+  可選的 `sort=...` 或 `key=...`。括號預設跟隨文件 UI：中文使用全形括號，
+  英文使用西文括號。單一術語可用 `parentheses=cjk`、
+  `parentheses=western` 或 `parentheses=none` 覆寫。若已載入
+  `hyperlinks`，索引條目會連回正文術語。舊有
+  `\Term{key}{display}{description}` 三參數形式仍受支援。
 - `\printindex`
   來自 `imakeidx` 的標準索引輸出命令。
 
@@ -217,7 +225,10 @@ See \textcite{doe2026} for a narrative citation, or use
   features = {hyperlinks,index}
 }
 
-\Term{manuscript}{Manuscript}{primary source}
+\Term{Manuscript}
+\Term{Wikipedia}[維基百科]
+\Term[parentheses=cjk]{孔子}[Confucius]
+\Term[sort=Riemann]{Riemann hypothesis}
 
 \printindex
 ```

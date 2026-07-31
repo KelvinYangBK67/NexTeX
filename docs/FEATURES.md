@@ -251,11 +251,18 @@ of contents.
 Public pieces:
 
 - `\IndexTitle`
-  Optional index title. Define it before loading the feature to override the
-  default.
-- `\Term{key}{display}{description}`
-  Prints a bold term with a short description and adds the first occurrence to
-  the index. If `hyperlinks` is loaded, the index entry links back to the term.
+  Optional index-title override. Define it before loading the feature; otherwise
+  the localized standard `\indexname` is used.
+- `\Term[options]{display}[description]`
+  Prints a bold term and adds its first occurrence to the index. The
+  square-bracketed `description` is optional. By default, `display` is also the dictionary-sort
+  value and duplicate-detection key. Use the optional `sort=...` or `key=...`
+  settings only when those values need to differ. Parentheses default to the document UI:
+  full-width for Chinese and western parentheses for English. Use
+  `parentheses=cjk`, `parentheses=western`, or `parentheses=none` to override
+  an individual term. If `hyperlinks` is loaded, the index entry links back to
+  the term. The legacy `\Term{key}{display}{description}` form remains
+  supported.
 - `\printindex`
   Standard index printing command from `imakeidx`.
 
@@ -266,7 +273,10 @@ Example:
   features = {hyperlinks,index}
 }
 
-\Term{manuscript}{Manuscript}{primary source}
+\Term{Manuscript}
+\Term{Wikipedia}[維基百科]
+\Term[parentheses=cjk]{孔子}[Confucius]
+\Term[sort=Riemann]{Riemann hypothesis}
 
 \printindex
 ```
