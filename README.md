@@ -10,7 +10,7 @@
 - `assets/`: local runtime resources such as fonts
 
 Current released version:
-- `v0.1.2`
+- `v0.1.3`
 
 Maintenance line:
 - `v0.1.x`
@@ -18,6 +18,13 @@ Maintenance line:
 Version history:
 - Released versions: [CHANGELOG.md](./CHANGELOG.md)
 - Unreleased development notes: [CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md)
+  
+## Showcase
+
+The full IMPE showcase demonstrates multilingual font routing, complex shaping,
+right-to-left scripts, vertical writing, CJK regional forms, and document features.
+
+[View the full showcase as PDF](_showcase/main.pdf)
 
 ## Purpose
 
