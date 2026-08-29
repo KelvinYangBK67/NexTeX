@@ -29,3 +29,4 @@ dist/
 assets/fonts/
 !assets/.gitkeep
 **/.nextex-externalized/
+!_showcase/main.pdf
