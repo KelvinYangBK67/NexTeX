@@ -6,6 +6,33 @@ All notable released changes to IMPE LaTeX System are documented in this file.
 
 For unreleased development notes, see [CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md).
 
+## [0.1.3] - 2026-08-29
+
+### Added
+
+* Added Unicode-range global font routing and reusable range profiles for script-specific font ownership, including range-limited routes for complex and multilingual text.
+* Added the `headers` feature with running-head support and `\HeaderTitle{...}` for an explicit short header title.
+* Added Tibetan inline/global break behavior that permits breaks after tsheg separators before Tibetan letters or signs while avoiding breaks before Tibetan punctuation.
+* Added explicit math font selection with `\UseMathFont{...}` and added `mlmodern` as a registry-backed legacy font route.
+* Added hyperlink improvements for repeated heading numbers, reverse heading-to-TOC navigation, and bidirectional footnote-marker links.
+
+### Changed
+
+* Consolidated WenJin Mincho into the `wenjin` family and `\WJ{...}` local command, with Plane 0 / 2 / 3 handled through the CJK fallback chain.
+* Refined CJK routing so shared Han ideographs remain on the document's Chinese/CJK font when Japanese, Korean, or Vietnamese Han-Nom families are loaded; language-specific Han forms remain available through `\JP`, `\KR`, and `\HN`.
+* Refined CJK and Unicode-range fallback behavior, including Japanese global CJK routing and improved fallback handling for extended Han coverage.
+* Updated the Libertinus catalog route to use TeX Live OTF family names and include mono; text-family loading now uses fontspec's `no-math`, preserving Computer Modern math unless Libertinus Math is explicitly selected with `\UseMathFont{libertinus}`.
+* Refined paper-layout defaults, two-sided page handling, Chinese UI section numbering, table-of-contents spacing, caption labels, and starred-heading TOC behavior.
+* Made numbered paper-layout TOC entries, including chapters and nested sections, expand their number boxes to the natural label width while preserving a stable gap.
+* Made index sort keys and descriptions optional, localized the default parentheses, and changed the default index title to the localized standard `\indexname`.
+* Refined citation formatting so author lists use `&` as the final-name delimiter, and improved table environment handling and landscape-table support.
+* Relaxed TeX badness defaults to reduce noisy overfull/underfull diagnostics and refined quote spacing in the English document layout.
+
+### Fixed
+
+* Fixed range transitions so adjacent Unicode blocks owned by the same font family no longer split a shaping run, preserving Old Hangul clusters across Hangul Jamo and Jamo Extended blocks.
+* Fixed WenJin fallback behavior so it follows the active Shanggu/CJK main-font route correctly.
+
 ## [0.1.2] - 2026-04-28
 
 ### Added

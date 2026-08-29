@@ -10,7 +10,7 @@
 - `assets/`：本地執行資源，例如字體
 
 目前已發佈版本：
-- `v0.1.2`
+- `v0.1.3`
 
 維護線：
 - `v0.1.x`
@@ -18,6 +18,12 @@
 版本記錄：
 - 已發佈版本：[CHANGELOG-zh.md](./CHANGELOG-zh.md)
 - 未發佈變更：[CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md)
+
+## 展示
+
+完整的 IMPE 展示文件涵蓋多語種字體路由、複雜文字塑形、從右至左書寫、豎排、CJK 地區字形以及常規文檔功能。
+
+[查看完整 PDF 展示文件](_showcase/main.pdf)
 
 ## 目標
 

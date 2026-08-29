@@ -21,6 +21,8 @@ Current licensing summary:
 - `NomNaTong-Regular.ttf` is distributed under the MIT License, not OFL.
 - The exact redistribution license texts for the two Tangut fonts listed below have not yet been confirmed and should be treated separately.
 - The exact redistribution status of the four bundled-local Mongolian `mngl*.ttf` fonts has also not yet been confirmed clearly enough for public release packaging.
+- `SyrCOM*.otf` is distributed under Beth Mardutho's Meltho Font License rather than the OFL. The license permits redistribution of the original, unmodified fonts but prohibits modification of the Font Software.
+
 
 Current contents:
 
@@ -28,8 +30,8 @@ Current contents:
   License text for `assets/fonts/bopomofo/I.Ming-8.10.ttf`
 - `NomNaTong-MIT-LICENSE.md`
   MIT license text for `assets/fonts/vietnamese_hannom/NomNaTong-Regular.ttf`
-- `SyrCOM-license.txt`
-  License text for the bundled `assets/fonts/syriac/SyrCOM*.otf` files
+- `SyrCOM-Meltho-LICENSE.txt`
+  Contains the Meltho font license applicable to the bundled `assets/fonts/syriac/SyrCOM*.otf` files. Redistribution of the original, unmodified fonts is permitted, but modification of the Font Software is not allowed.
 
 Reference translation:
 

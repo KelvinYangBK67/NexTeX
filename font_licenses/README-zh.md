@@ -21,6 +21,7 @@
 - `NomNaTong-Regular.ttf` 使用的是 MIT License，不屬於 OFL。
 - 下方列出的兩款 Tangut 字體，其可再分發授權文本目前仍未確認，應單獨看待。
 - 下方列出的四款蒙古文 `mngl*.ttf` 字體，其可再分發狀態目前也仍不夠明確，應單獨看待。
+- `SyrCOM*.otf` 使用 Beth Mardutho 的 Meltho Font License，不屬於 OFL；該授權允許原始未修改字體的再分發，但禁止修改 Font Software。
 
 目前內容：
 
@@ -28,8 +29,8 @@
   對應 `assets/fonts/bopomofo/I.Ming-8.10.ttf` 的授權全文
 - `NomNaTong-MIT-LICENSE.md`
   對應 `assets/fonts/vietnamese_hannom/NomNaTong-Regular.ttf` 的 MIT 授權全文
-- `SyrCOM-license.txt`
-  對應 bundled `assets/fonts/syriac/SyrCOM*.otf` 的授權全文
+* `SyrCOM-Meltho-LICENSE.txt`
+  對應 bundled `assets/fonts/syriac/SyrCOM*.otf` 的 Meltho 字體授權全文；允許原始未修改字體的再分發，但不允許修改字體軟體。
 
 參考譯文：
 

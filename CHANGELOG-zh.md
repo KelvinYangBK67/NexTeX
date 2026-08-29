@@ -6,6 +6,34 @@ IMPE LaTeX System 的已發佈版本變更記錄於此。
 
 尚未發佈的開發中變更請見 [CHANGELOG.unreleased.md](./CHANGELOG.unreleased.md)。
 
+## [0.1.3] - 2026-08-29
+
+### 新增
+
+* 新增 Unicode range 全域字體路由與可重用的 range profiles，用於按文字範圍管理字體歸屬，並支援複雜文字與多語文件的 range-limited 路由。
+* 新增 `headers` feature，支援 running heads，並可透過 `\HeaderTitle{...}` 明確指定簡短頁眉標題。
+* 新增藏文 inline / global 斷行行為：在 tsheg 分隔符後接藏文字母或符號時允許斷行，同時避免在藏文標點前斷行。
+* 新增 `\UseMathFont{...}`，可明確選擇數學字體；並新增 `mlmodern`，作為 registry 可選的傳統 LaTeX 字體路線。
+* 新增超連結處理，包括重複章節編號的穩定錨點、標題反向連結至目錄，以及腳註標記的雙向連結。
+
+### 調整
+
+* 將 WenJin Mincho 整合為 `wenjin` family 與 `\WJ{...}` 局部命令，Plane 0 / 2 / 3 改由 CJK fallback chain 統一處理。
+* 調整 CJK 路由：載入日文、朝鮮文或越南漢喃 family 時，共用漢字繼續使用文件的中文／CJK 字體；需要特定語言漢字字形時仍可使用 `\JP`、`\KR`、`\HN`。
+* 改善 CJK 與 Unicode-range fallback 行為，包括日文字體的全域 CJK 路由，以及擴展漢字範圍的 fallback 支援。
+* 更新 Libertinus catalog 路線，改用 TeX Live OTF 字族名稱並加入 mono；文字 family 改以 fontspec 的 `no-math` 載入，預設保留完整 Computer Modern 數學設定，只有明確使用 `\UseMathFont{libertinus}` 時才切換到 Libertinus Math。
+* 改善紙本 layout 預設值、雙面文件頁面處理、中文 UI 章節編號、目錄間距、圖表題名與星號標題入目錄行為。
+* 紙本 layout 的所有帶編號目錄項，包括 chapter 與各層 section，現在會依編號自然寬度擴張並保留固定間距。
+* 術語索引的排序 key 與說明改為可選，預設括號依 UI 本地化，索引標題改用本地化標準 `\indexname`。
+* 調整引用格式，使作者列表最後兩位作者之間使用 `&`；同時改善表格環境處理與橫向頁面表格支援。
+* 放寬 TeX badness 預設值以減少 overfull / underfull 診斷噪音，並調整英文 document layout 的 quote 間距。
+
+### 修正
+
+* 修正 range transition：相鄰 Unicode block 若屬於同一字體 family，不再切斷 shaping run，從而保留跨 Hangul Jamo 與 Jamo Extended block 的古諺文 cluster。
+* 修正 WenJin fallback，使其能正確跟隨目前啟用的 Shanggu／CJK 主字體路線。
+
+
 ## [0.1.2] - 2026-04-28
 
 ### 新增
