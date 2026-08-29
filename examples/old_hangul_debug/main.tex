@@ -1,0 +1,19 @@
+% !TeX program = xelatex
+% Old Hangul shaping regression: automatic range routing must preserve a
+% cluster across Hangul Jamo, Jamo Extended-A, and Jamo Extended-B.
+\documentclass{article}
+\usepackage{import}
+
+\subimport{../../package/}{system.tex}
+\UseTemplateSet{
+  globalfonts = {cmu,shanggu},
+  fonts = {korean}
+}
+
+\begin{document}
+Automatic Old Hangul: ꥠᅡퟋ〮
+
+Modern decomposed control: 각
+
+Local reference: \KR{ꥠᅡퟋ〮}
+\end{document}

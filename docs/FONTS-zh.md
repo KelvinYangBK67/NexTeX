@@ -145,6 +145,8 @@ core/fonts/system.tex
 
 `scriptclass = cjk` 是內部路由提示，用於選擇 xeCJK 路徑。包含 `japanese` 在內的 CJK global family 會透過 xeCJK 替換文件的 CJK main / sans / mono 通道，而不是使用 Unicode range intercharacter switching。一般非 CJK family 不需要 `scriptclass`；OpenType shaping 應透過 `script`、`language`、`features` 表達。
 
+在自動範圍路由中，日文字體與朝鮮文字體只會分別接管其專屬文字（假名與諺文）以及 CJK 標點；共用漢字仍使用文件的 CJK 字體，讓中文字體保持優先。需要明確採用日文或朝鮮文漢字字形時，可分別使用局部命令 `\JP{...}`、`\KR{...}`。越南漢喃字體同樣只作局部選用，需要時使用 `\HN{...}`。
+
 ### Shaping、Layout 與特殊模組
 
 `script`、`language`、`features = { RawFeature = { script=... } }` 是標準 fontspec / OpenType shaping 選項，不是特殊模組。

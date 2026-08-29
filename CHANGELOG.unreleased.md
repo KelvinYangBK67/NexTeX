@@ -13,6 +13,7 @@ This file tracks v0.1.x maintenance changes that have not been published as a st
 - Added hyperlink stabilization for repeated heading numbers, reverse heading-to-TOC links, and bidirectional footnote marker links.
 
 ### Changed
+- Kept shared Han ideographs on the document's Chinese/CJK font when Japanese, Korean, or Vietnamese Han-Nom local families are loaded; language-specific Han forms remain available through `\JP`, `\KR`, and `\HN`.
 - Updated the Libertinus catalog entry to use TeX Live OTF family names and include mono.
 - Isolated text-family loading from math with fontspec's `no-math` option, keeping the complete Computer Modern math setup when `fonts={libertinus}` is used; Libertinus Math now requires explicit `\UseMathFont{libertinus}` selection.
 - Refined Chinese UI section numbering, table-of-contents spacing, caption labels, and starred heading TOC handling.
@@ -31,6 +32,7 @@ This file tracks v0.1.x maintenance changes that have not been published as a st
 - 新增 Libertinus math 測試示例。
 
 ### 調整
+- 載入日文、朝鮮文或越南漢喃局部字體時，共用漢字會繼續優先使用文件的中文／CJK 字體；需要特定語言漢字字形時仍可使用 `\JP`、`\KR`、`\HN` 局部命令。
 - 更新 Libertinus catalog 條目，改用 TeX Live OTF 字族名稱並加入 mono。
 - 以 fontspec 的 `no-math` 選項隔離文字與數學字體；使用 `fonts={libertinus}` 時會完整保留預設 Computer Modern 數學設定，Libertinus Math 現在必須透過 `\UseMathFont{libertinus}` 明確選用。
 - 改善中文 UI 的章節編號、目錄間距、圖表題名與星號標題入目錄行為。

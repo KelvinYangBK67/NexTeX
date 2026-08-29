@@ -102,8 +102,12 @@
 
 \DeclareRangeProfile{cjk-sc}{han,cjk-punctuation}
 \DeclareRangeProfile{cjk-tc}{han,bopomofo,cjk-punctuation}
-\DeclareRangeProfile{cjk-jp}{han,kana,cjk-punctuation}
-\DeclareRangeProfile{cjk-kr}{hangul,han,cjk-punctuation}
+% Japanese and Korean only claim their language-specific scripts automatically.
+% Shared Han ideographs stay on the document CJK family (normally Chinese);
+% use the local \JP / \KR commands when language-specific Han glyph forms are
+% required explicitly.
+\DeclareRangeProfile{cjk-jp}{kana,cjk-punctuation}
+\DeclareRangeProfile{cjk-kr}{hangul,cjk-punctuation}
 \DeclareRangeProfile{bopomofo}{bopomofo}
 \DeclareRangeProfile{tangut}{tangut}
 \DeclareRangeProfile{khitan-small}{khitan-small}

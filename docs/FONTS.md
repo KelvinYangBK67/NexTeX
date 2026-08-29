@@ -174,6 +174,13 @@ channels through xeCJK rather than using Unicode-range intercharacter switching.
 Ordinary non-CJK families do not need `scriptclass`; OpenType shaping should be
 expressed with `script`, `language`, and `features`.
 
+In automatic range routing, Japanese and Korean claim only their
+language-specific scripts (kana and Hangul, respectively), plus CJK
+punctuation. Shared Han ideographs remain on the document CJK family so a
+Chinese font keeps priority. Use the local `\JP{...}` or `\KR{...}` command to
+request Japanese or Korean Han glyph forms explicitly. Vietnamese Han-Nom is
+likewise local-only and can be selected explicitly with `\HN{...}`.
+
 ### Shaping, Layout, and Special Modules
 
 `script`, `language`, and `features = { RawFeature = { script=... } }` are

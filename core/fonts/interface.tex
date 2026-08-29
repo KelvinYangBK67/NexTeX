@@ -1385,23 +1385,42 @@
 
 \cs_new_protected:Npn \__font_set_range_cross_transition:nnnn #1#2#3#4
   {
-    \use:x
+    \str_if_eq:nnTF {#3} {#4}
       {
-        \exp_not:N \XeTeXinterchartoks
-          \exp_not:c { __font_unicode_block_#1_class }
-          \exp_not:c { __font_unicode_block_#2_class }
-          =
+        % Keep a shaping run intact when adjacent Unicode blocks are owned by
+        % the same range family.  This is essential for clusters such as Old
+        % Hangul, whose jamo can span Hangul Jamo and Extended-A/B.
+        \use:x
           {
-            \exp_not:N \endgroup
-            \exp_not:c { __font_enter_range_#4: }
+            \exp_not:N \XeTeXinterchartoks
+              \exp_not:c { __font_unicode_block_#1_class }
+              \exp_not:c { __font_unicode_block_#2_class }
+              = { }
+            \exp_not:N \XeTeXinterchartoks
+              \exp_not:c { __font_unicode_block_#2_class }
+              \exp_not:c { __font_unicode_block_#1_class }
+              = { }
           }
-        \exp_not:N \XeTeXinterchartoks
-          \exp_not:c { __font_unicode_block_#2_class }
-          \exp_not:c { __font_unicode_block_#1_class }
-          =
+      }
+      {
+        \use:x
           {
-            \exp_not:N \endgroup
-            \exp_not:c { __font_enter_range_#3: }
+            \exp_not:N \XeTeXinterchartoks
+              \exp_not:c { __font_unicode_block_#1_class }
+              \exp_not:c { __font_unicode_block_#2_class }
+              =
+              {
+                \exp_not:N \endgroup
+                \exp_not:c { __font_enter_range_#4: }
+              }
+            \exp_not:N \XeTeXinterchartoks
+              \exp_not:c { __font_unicode_block_#2_class }
+              \exp_not:c { __font_unicode_block_#1_class }
+              =
+              {
+                \exp_not:N \endgroup
+                \exp_not:c { __font_enter_range_#3: }
+              }
           }
       }
   }
